@@ -1,15 +1,15 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 
-let prisma: PrismaClient;
+const prisma = new PrismaClient();
 
-if (process.env.NODE_ENV === "production") {
-  prisma = new PrismaClient();
-} else {
-  if (!global.prisma) {
-    global.prisma = new PrismaClient();
+(async () => {
+  try {
+    console.log(await prisma.widget.create({ data: {} }));
+  } catch (err) {
+    console.error("error executing query:", err);
+  } finally {
+    prisma.$disconnect();
   }
-
-  prisma = global.prisma;
-}
+})();
 
 export default prisma;
