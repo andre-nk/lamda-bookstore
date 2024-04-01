@@ -7,42 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Widget {
-  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+model migration_internal_statements {
+  statement_order BigInt @id
+  statement_id    String @unique @db.Uuid
+  data            Json?
+
+  @@map("_migration_internal_statements")
 }
 
-enum GENRE {
-  historical
-  fiction
-  science
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model customer {
+  id      BigInt  @id @unique(map: "id") @default(sequence())
+  name    String  @db.String(255)
+  address String  @db.String(255)
+  email   String? @db.String(50)
+  gender  String? @db.String(20)
 }
 
-model Book {
-  id              String      @id @default(uuid())
-  author          String
-  title           String
-  rating          Float?
-  publicationDate DateTime
-  genre           GENRE
-  img             String?     @default("")
-  reviews         Review[]
-  savedBooks      SavedBook[]
+model product {
+  id           BigInt   @id @unique(map: "id") @default(sequence())
+  title        String   @db.String(256)
+  author       String   @db.String(256)
+  rating       Decimal  @db.Decimal(4, 2)
+  description  String   @db.String(3000)
+  language     String   @db.String(64)
+  isbn         String   @db.String(13)
+  genres       String   @db.String(256)
+  characters   String   @db.String(1082)
+  pages        Int
+  published_at DateTime @db.Date
+  cover_img    String   @db.String(256)
+  price        Decimal? @db.Decimal(8, 0)
 }
 
-model Review {
-  id         String   @id @default(uuid())
-  review     String
-  userId     String
-  book       Book     @relation(fields: [bookId], references: [id])
-  bookId     String
-  date       DateTime @default(now())
-  user_name  String
-  user_image String   @default("")
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model transaction {
+  id             BigInt   @id @unique(map: "id") @default(sequence())
+  total_price    Decimal? @db.Decimal(20, 6)
+  payment_method String   @db.String(20)
+  created_at     DateTime @db.Timestamp(0)
+  status         String   @db.String(10)
+  customer_id    String   @db.String(40)
 }
 
-model SavedBook {
-  id     String @id @default(uuid())
-  book   Book   @relation(fields: [bookId], references: [id])
-  bookId String
-  userId String
+model transaction_product {
+  id             BigInt @id @unique(map: "id") @default(sequence())
+  transaction_id Int?
+  product_id     Int?
 }

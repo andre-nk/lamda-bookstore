@@ -1,23 +1,14 @@
-import db from "@/utils/db";
-import BookList from "@/components/BookList";
+import {
+  seedCustomerData,
+  seedProductData,
+  seedTransactionData,
+  seedTransactionProductData,
+} from "@/actions/actions";
 
-async function getAllBook() {
-  const books = await db.book.findMany({});
-  return books;
-}
-
-async function Home() {
-  const books = await getAllBook();
-
+export default async function Home() {
   return (
     <section className="px-14 py-7">
-      <BookList books={books} />
+      <p>Test</p>
     </section>
   );
-
-  {
-    /* new-book best-book-list author-list */
-  }
 }
-
-export default Home;
