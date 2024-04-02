@@ -1,9 +1,9 @@
-import { SignUp } from "@clerk/nextjs";
+import { SignIn } from "@clerk/nextjs";
 import Image from "next/image";
 
 import React from "react";
 
-export default function SignUpPage() {
+export default function LoginPage() {
   return (
     <div className="flex min-h-screen w-full">
       <div className="flex w-1/2 items-center justify-center">
@@ -16,7 +16,7 @@ export default function SignUpPage() {
         />
       </div>
       <div className="flex w-1/2 items-center justify-center">
-        <SignUp
+        <SignIn
           appearance={{
             elements: {
               formButtonPrimary: "bg-black text-sm normal-case",
