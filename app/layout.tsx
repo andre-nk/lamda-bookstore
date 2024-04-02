@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, UserButton } from "@clerk/nextjs";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -52,7 +52,10 @@ export default function RootLayout({
         <body
           className={`${poppins.variable} ${hoeflerText.variable} font-sans`}
         >
-          <header></header>
+          <header className="flex w-full items-center justify-between">
+            <p className="font-sans">Lamda Bookstore</p>
+            <UserButton />
+          </header>
           <main>{children}</main>
           <footer></footer>
         </body>
