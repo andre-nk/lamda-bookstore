@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import { product } from "@prisma/client";
+import Link from "next/link";
 
 export default function BookCard({ book }: { book: product }) {
   return (
-    <div>
+    <Link href={`/book/${book.id}`}>
       <Image
         src={book.cover_img}
         alt={book.title}
@@ -22,6 +23,6 @@ export default function BookCard({ book }: { book: product }) {
           currency: "IDR",
         }).format(book.price?.toNumber() ?? 0)}
       </p>
-    </div>
+    </Link>
   );
 }
