@@ -7,6 +7,7 @@ import { ClerkProvider, UserButton } from "@clerk/nextjs";
 import { CartProvider } from "./_contexts/CartContext";
 
 import Footer from "./_components/Footer";
+import Navbar from './_components/Navbar.client';
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -55,10 +56,7 @@ export default function RootLayout({
         <body
           className={`${poppins.variable} ${hoeflerText.variable} font-sans`}
         >
-          <header className="flex w-full items-center justify-between">
-            <p className="font-sans">Lamda Bookstore</p>
-            <UserButton />
-          </header>
+          <Navbar />
           <main>
             <CartProvider>{children}</CartProvider>
           </main>
