@@ -6,6 +6,8 @@ import "./globals.css";
 import { ClerkProvider, UserButton } from "@clerk/nextjs";
 import { CartProvider } from "./_contexts/CartContext";
 
+import Footer from "./_components/Footer";
+
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -60,7 +62,7 @@ export default function RootLayout({
           <main>
             <CartProvider>{children}</CartProvider>
           </main>
-          <footer></footer>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
