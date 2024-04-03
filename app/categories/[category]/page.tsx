@@ -8,7 +8,6 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
@@ -36,8 +35,6 @@ export default async function CategoryPage({
       },
     });
   }
-
-  console.log(books);
 
   return (
     <div className="flex flex-col space-y-8 p-8">

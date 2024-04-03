@@ -3,7 +3,7 @@ import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, UserButton } from "@clerk/nextjs";
 
 import Footer from "./_components/Footer";
 
@@ -51,8 +51,13 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${poppins.variable} ${hoeflerText.variable} font-sans`}>
-          <header></header>
+        <body
+          className={`${poppins.variable} ${hoeflerText.variable} font-sans`}
+        >
+          <header className="flex w-full items-center justify-between">
+            <p className="font-sans">Lamda Bookstore</p>
+            <UserButton />
+          </header>
           <main>{children}</main>
           <Footer />
         </body>
