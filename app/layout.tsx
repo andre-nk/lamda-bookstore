@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider, UserButton } from "@clerk/nextjs";
 
+import Footer from "./_components/Footer";
+
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -57,7 +59,7 @@ export default function RootLayout({
             <UserButton />
           </header>
           <main>{children}</main>
-          <footer></footer>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
