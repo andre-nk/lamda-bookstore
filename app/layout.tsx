@@ -5,6 +5,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
+import Footer from "./_components/Footer";
+
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",
@@ -49,12 +51,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body
-          className={`${poppins.variable} ${hoeflerText.variable} font-sans`}
-        >
+        <body className={`${poppins.variable} ${hoeflerText.variable} font-sans`}>
           <header></header>
           <main>{children}</main>
-          <footer></footer>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
