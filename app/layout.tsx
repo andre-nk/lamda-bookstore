@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 import { ClerkProvider, UserButton } from "@clerk/nextjs";
+import { CartProvider } from "./_contexts/CartContext";
 
 import Footer from "./_components/Footer";
 
@@ -58,7 +59,9 @@ export default function RootLayout({
             <p className="font-sans">Lamda Bookstore</p>
             <UserButton />
           </header>
-          <main>{children}</main>
+          <main>
+            <CartProvider>{children}</CartProvider>
+          </main>
           <Footer />
         </body>
       </html>
