@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 /**
  * Borrowed from https://github.com/KMS74/Next.js-Shopping-Cart-App/blob/main/src/CartContext.tsx
@@ -36,9 +36,17 @@ interface Props {
   children: React.ReactNode;
 }
 
+function getInitialState(): CartItem[] {
+  const cartItems = localStorage.getItem("cartItems");
+  return cartItems ? JSON.parse(cartItems) : [];
+}
+
 export const CartProvider = ({ children }: Props) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  console.log(cartItems);
+  const [cartItems, setCartItems] = useState(getInitialState());
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const addToCart = (product: Product) => {
     const existingCartItemIndex = cartItems.findIndex(

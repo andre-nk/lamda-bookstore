@@ -1,69 +1,130 @@
-import React from "react";
+"use client";
 
-
-import { ClerkProvider, UserButton } from "@clerk/nextjs";
+import React, { useState } from "react";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import { useApp } from "../_contexts/AppContext";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  const router = useRouter();
+
+  const [searchQuery, setsearchQuery] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { sidebarVisible, setSidebarVisible } = useApp();
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
-    <header className="p-4 dark:text-gray-800">
-      <div className="container flex px-12 py-2 justify-between h-16 mx-auto">
-        <p className="text-[26px] font-serif">Lamda Bookshop</p>
-        <div className="">
-          <div className="dropdown px-1 relative">
-            <button
-              type="button"
-              className="text-sm text-[16px] px-1 py-2.5 inline-flex"
-              data-dropdown-toggle="dropdown"
-            >
-              Categories
-              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div className="relative">
-          <input
-            type="text"
-            placeholder="Search by title, author..."
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm text-[12px] rounded-3xl focus:ring-blue-500 focus:border-blue-500 block w-[560px] h-[36px] pl-4 pr-10"
-          />
-          <div className="absolute inset-y-0 right-0 flex items-center pr-3 translate-y-[-15%]">
-            <svg className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path
-                fillRule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clipRule="evenodd"
-              />
-            </svg>
-          </div>
-        </div>
-        <div className="flex flex-row cursor-pointer truncate px-4 rounded">
-          <div></div>
-          <div className="flex flex-row-reverse ml-2 w-full">
-            <div slot="icon" className="relative">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="100%"
-                height="100%"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="feather feather-shopping-cart w-6 h-6 mt-2"
-              >
-                <circle cx="9" cy="21" r="1"></circle>
-                <circle cx="20" cy="21" r="1"></circle>
-                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-              </svg>
+    <header className="dark:text-gray-800">
+      <div className="my-6 flex h-16 items-center justify-between px-6 lg:container lg:px-12">
+        <Link href="/" className="font-serif text-xl">
+          Lamda Bookshop
+        </Link>
+        <div className="flex space-x-4 lg:w-[50%]">
+          <SignedIn>
+            <div className="hidden lg:block">
+              <div className="dropdown relative px-1">
+                <button
+                  type="button"
+                  className="inline-flex px-1 py-2.5 text-[16px] text-sm"
+                  data-dropdown-toggle="dropdown"
+                  onClick={toggleDropdown}
+                >
+                  Categories
+                  <svg
+                    className="ml-2 h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    ></path>
+                  </svg>
+                </button>
+                {dropdownOpen && (
+                  <ul className="menu dropdown-content bg-base-100 rounded-box absolute z-[1] flex w-36 flex-col space-y-4 p-2 shadow">
+                    <Link href="/categories/Best-Sellers" className="text-sm">
+                      Best Sellers
+                    </Link>
+                    <Link href="/categories/Fiction" className="text-sm">
+                      Best Fiction
+                    </Link>
+                    <Link href="/categories/Romance" className="text-sm">
+                      Best Romance
+                    </Link>
+                  </ul>
+                )}
+              </div>
             </div>
+          </SignedIn>
+          <SignedIn>
+            <div className="relative hidden w-full md:block">
+              <input
+                type="text"
+                placeholder="Search by title, author..."
+                value={searchQuery}
+                onChange={(e) => setsearchQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    router.push(`/search?q=${searchQuery}`);
+                  }
+                }}
+                className="block h-[36px] w-full rounded-3xl border border-gray-300 bg-gray-50 pl-4 pr-10 text-[12px] text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+              />
+              <div className="absolute right-2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform items-center">
+                <svg
+                  className="h-4 w-4 text-gray-500"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
+          </SignedIn>
+        </div>
+        <SignedIn>
+          <div className="flex items-center justify-end space-x-4">
+            <div className="flex cursor-pointer flex-row truncate rounded px-4">
+              <button
+                className="flex w-full flex-row-reverse"
+                onClick={() => setSidebarVisible(!sidebarVisible)}
+              >
+                <div slot="icon" className="relative">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="100%"
+                    height="100%"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-shopping-cart h-6 w-6"
+                  >
+                    <circle cx="9" cy="21" r="1"></circle>
+                    <circle cx="20" cy="21" r="1"></circle>
+                    <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <UserButton />
           </div>
-        </div>
-        <div>
-          <UserButton />
-        </div>
+        </SignedIn>
       </div>
     </header>
   );

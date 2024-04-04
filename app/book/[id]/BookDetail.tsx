@@ -70,7 +70,7 @@ function BookDetail({ book }: Props) {
           </div>
 
           <div className="flex flex-col space-y-1">
-            <p className="font-bold">Deskripsi</p>
+            <p className="font-bold">Synopsis</p>
             <p className="text-slate-600">{book?.description}</p>
           </div>
 

@@ -3,11 +3,14 @@ import { Poppins } from "next/font/google";
 import localFont from "next/font/local";
 
 import "./globals.css";
-import { ClerkProvider, UserButton } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import { CartProvider } from "./_contexts/CartContext";
 
 import Footer from "./_components/Footer";
 import Navbar from './_components/Navbar.client';
+import { AppProvider } from "./_contexts/AppContext";
+import Sidebar from "./_components/Sidebar";
+import Navbar from "./_components/Navbar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -61,6 +64,14 @@ export default function RootLayout({
             <CartProvider>{children}</CartProvider>
           </main>
           <Footer />
+          <AppProvider>
+            <CartProvider>
+              <Navbar />
+              <Sidebar />
+              <main>{children}</main>
+              <Footer />
+            </CartProvider>
+          </AppProvider>
         </body>
       </html>
     </ClerkProvider>

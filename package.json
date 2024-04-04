@@ -11,6 +11,8 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.10",
     "@prisma/client": "^5.11.0",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
@@ -26,7 +28,8 @@
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.22.3",
     "tailwind-merge": "^2.2.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "vaul": "^0.9.0"
   },
   "devDependencies": {
     "@types/node": "^20",
