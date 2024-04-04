@@ -38,7 +38,6 @@ interface Props {
 
 export const CartProvider = ({ children }: Props) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  console.log(cartItems);
 
   const addToCart = (product: Product) => {
     const existingCartItemIndex = cartItems.findIndex(
