@@ -8,6 +8,8 @@ import { CartProvider } from "./_contexts/CartContext";
 
 import Footer from "./_components/Footer";
 import Header from "./_components/Header";
+import { AppProvider } from "./_contexts/AppContext";
+import Sidebar from "./_components/Sidebar";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -56,11 +58,14 @@ export default function RootLayout({
         <body
           className={`${poppins.variable} ${hoeflerText.variable} font-sans`}
         >
-          <Header />
-          <main>
-            <CartProvider>{children}</CartProvider>
-          </main>
-          <Footer />
+          <AppProvider>
+            <CartProvider>
+              <Header />
+              <Sidebar />
+              <main>{children}</main>
+              <Footer />
+            </CartProvider>
+          </AppProvider>
         </body>
       </html>
     </ClerkProvider>
