@@ -1,9 +1,12 @@
 import BookSwipers from "./_components/BookSwipers";
+import Hero from "./_components/Hero";
 
 export default async function Home() {
   return (
     <section className="px-8 py-7 lg:px-20">
-      {/* Hero */}
+      <div>
+        <Hero />
+      </div>
       <div className="my-8 flex flex-col space-y-[20vh] md:space-y-[16vh] lg:space-y-[36vh]">
         <BookSwipers categoryTitle="Best Sellers" category="" />
         <BookSwipers categoryTitle="Best Fiction" category="Fiction" />

@@ -7,9 +7,9 @@ import { ClerkProvider, UserButton } from "@clerk/nextjs";
 import { CartProvider } from "./_contexts/CartContext";
 
 import Footer from "./_components/Footer";
-import Header from "./_components/Header";
 import { AppProvider } from "./_contexts/AppContext";
 import Sidebar from "./_components/Sidebar";
+import Navbar from "./_components/Navbar.client";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -60,12 +60,16 @@ export default function RootLayout({
         >
           <AppProvider>
             <CartProvider>
-              <Header />
+              <Navbar />
               <Sidebar />
               <main>{children}</main>
               <Footer />
             </CartProvider>
           </AppProvider>
+          <main>
+            <CartProvider>{children}</CartProvider>
+          </main>
+          <Footer />
         </body>
       </html>
     </ClerkProvider>
