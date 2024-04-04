@@ -30,8 +30,8 @@ const Sidebar = () => {
     >
       <DrawerPortal>
         <DrawerContent className="w-full drop-shadow-2xl md:w-7/12 lg:w-4/12">
-          <DrawerHeader className="flex flex-row">
-            <DrawerTitle className="flex-grow text-xl font-semibold capitalize text-slate-900 lg:text-2xl">
+          <DrawerHeader className="flex flex-row items-center justify-between">
+            <DrawerTitle className="text-xl font-semibold text-slate-900 lg:text-2xl">
               My Cart
             </DrawerTitle>
             <Button onClick={() => setSidebarVisible(false)} variant="ghost">
@@ -43,12 +43,12 @@ const Sidebar = () => {
               {cartItems.map((item) => (
                 <div
                   key={item.product.id}
-                  className="flex flex-row items-center space-x-8"
+                  className="flex flex-row items-start space-x-8"
                 >
                   <Image
                     src={item.product.cover_img}
                     alt="Book cover placeholder"
-                    className="aspect-[3/4] w-[35%] rounded-xl"
+                    className="aspect-[3/4] w-[45%] rounded-xl md:w-[40%] lg:w-[35%]"
                     width={120}
                     height={160}
                   />

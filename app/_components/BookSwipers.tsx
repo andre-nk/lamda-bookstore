@@ -54,7 +54,7 @@ export default async function BookSwipers({
           see all
         </Link>
       </div>
-      <Carousel className="mx-10 max-h-[24vh] md:max-h-[28vh] lg:mx-10 lg:max-h-[32vh]">
+      <Carousel className="mx-10 max-h-[40vh] md:max-h-[28vh] lg:mx-10 lg:max-h-[32vh] xl:max-h-[44vh]">
         <CarouselContent>
           {books.map((book) => (
             <CarouselItem
