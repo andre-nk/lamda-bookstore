@@ -17,6 +17,7 @@ interface CartContextValue {
   updateCartItemQuantity: (productId: number, quantity: number) => void;
   cartTotal: number;
   cartCount: number;
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
 const CartContext = createContext<CartContextValue>({
@@ -26,6 +27,7 @@ const CartContext = createContext<CartContextValue>({
   updateCartItemQuantity: () => {},
   cartTotal: 0,
   cartCount: 0,
+  setCartItems: () => {},
 });
 
 export const useCart = () => {
@@ -109,6 +111,7 @@ export const CartProvider = ({ children }: Props) => {
         updateCartItemQuantity,
         cartTotal,
         cartCount,
+        setCartItems,
       }}
     >
       {children}
