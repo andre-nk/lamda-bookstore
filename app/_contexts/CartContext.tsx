@@ -37,6 +37,9 @@ interface Props {
 }
 
 function getInitialState(): CartItem[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
   const cartItems = localStorage.getItem("cartItems");
   return cartItems ? JSON.parse(cartItems) : [];
 }
@@ -45,7 +48,8 @@ export const CartProvider = ({ children }: Props) => {
   const [cartItems, setCartItems] = useState(getInitialState());
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (typeof window !== "undefined")
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (product: Product) => {

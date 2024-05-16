@@ -10,6 +10,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Link from "next/link";
 
 type Props = {
   book: Product;
@@ -82,7 +83,9 @@ function BookDetail({ book }: Props) {
             >
               Add to cart
             </Button>
-            <Button className="w-full lg:w-auto">Checkout</Button>
+            <Button className="w-full lg:w-auto" asChild>
+              <Link href="/checkout">Checkout</Link>
+            </Button>
           </div>
         </div>
       </div>
