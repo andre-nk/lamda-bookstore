@@ -17,6 +17,7 @@ interface CartContextValue {
   updateCartItemQuantity: (productId: number, quantity: number) => void;
   cartTotal: number;
   cartCount: number;
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
 const CartContext = createContext<CartContextValue>({
@@ -26,6 +27,7 @@ const CartContext = createContext<CartContextValue>({
   updateCartItemQuantity: () => {},
   cartTotal: 0,
   cartCount: 0,
+  setCartItems: () => {},
 });
 
 export const useCart = () => {
@@ -37,6 +39,9 @@ interface Props {
 }
 
 function getInitialState(): CartItem[] {
+  if (typeof window === "undefined") {
+    return [];
+  }
   const cartItems = localStorage.getItem("cartItems");
   return cartItems ? JSON.parse(cartItems) : [];
 }
@@ -45,7 +50,8 @@ export const CartProvider = ({ children }: Props) => {
   const [cartItems, setCartItems] = useState(getInitialState());
 
   useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    if (typeof window !== "undefined")
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = (product: Product) => {
@@ -105,6 +111,7 @@ export const CartProvider = ({ children }: Props) => {
         updateCartItemQuantity,
         cartTotal,
         cartCount,
+        setCartItems,
       }}
     >
       {children}
