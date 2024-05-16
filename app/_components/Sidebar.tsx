@@ -15,6 +15,7 @@ import {
 import { useCart } from "../_contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash } from "lucide-react";
+import Link from "next/link";
 
 const Sidebar = () => {
   const { sidebarVisible, setSidebarVisible } = useApp();
@@ -121,7 +122,9 @@ const Sidebar = () => {
                 )}
               </p>
             </span>
-            <Button className="h-[5.5vh] w-full">Checkout</Button>
+            <Button className="h-[5.5vh] w-full" asChild>
+              <Link href="/checkout">Checkout</Link>
+            </Button>
           </DrawerFooter>
         </DrawerContent>
       </DrawerPortal>
