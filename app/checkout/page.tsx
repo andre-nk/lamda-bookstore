@@ -17,7 +17,8 @@ function Checkout() {
   const { cartItems, setCartItems } = useCart();
   const formRef = React.useRef<HTMLFormElement>(null);
 
-  const handleOrder = async () => {
+  const handleOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (!formRef.current) return;
     const formData = new FormData(formRef.current);
     const paymentMethod = formData.get("payment") as string;
