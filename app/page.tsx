@@ -1,5 +1,6 @@
-import BookSwipers from "./_components/BookSwipers";
+import { seedProductData } from "@/actions/actions";
 import Hero from "./_components/Hero";
+import BookSwipers from "./_components/BookSwipers";
 
 export default async function Home() {
   return (
@@ -7,7 +8,7 @@ export default async function Home() {
       <div>
         <Hero />
       </div>
-      <div className="my-8 flex flex-col space-y-[20vh] md:space-y-[16vh] lg:space-y-[36vh]">
+      <div className="my-8 flex flex-col space-y-[20vh] md:space-y-[16vh] lg:space-y-[16vh]">
         <BookSwipers categoryTitle="Best Sellers" category="" />
         <BookSwipers categoryTitle="Best Fiction" category="Fiction" />
         <BookSwipers categoryTitle="Best Romance" category="Romance" />

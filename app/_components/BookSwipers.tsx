@@ -8,9 +8,9 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import db from "@/utils/db";
 import Link from "next/link";
 import BookCard from "./BookCard";
+import { getBestSellerBooks, getBooksByCategory } from "@/actions/actions";
 
 export default async function BookSwipers({
   categoryTitle,
@@ -21,22 +21,15 @@ export default async function BookSwipers({
 }) {
   let books;
 
-  if (category === "Best Sellers") {
-    books = await db.product.findMany({
-      orderBy: {
-        price: "asc",
-      },
-      take: 10,
-    });
+  if (categoryTitle === "Best Sellers") {
+    books = await getBestSellerBooks(10);
   } else {
-    books = await db.product.findMany({
-      where: {
-        genres: {
-          contains: category,
-        },
-      },
-      take: 10,
-    });
+    books = await getBooksByCategory(10, category);
+  }
+
+  if ("error" in books) {
+    console.log(category);
+    throw new Error(books.error);
   }
 
   return (

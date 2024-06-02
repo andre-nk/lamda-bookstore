@@ -11,12 +11,9 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { Book } from "@/models/book";
 
-type Props = {
-  book: Product;
-};
-
-function BookDetail({ book }: Props) {
+function BookDetail({ book }: { book: Book }) {
   const { addToCart } = useCart();
 
   return (
@@ -79,7 +76,10 @@ function BookDetail({ book }: Props) {
             <Button
               className="w-full lg:w-auto"
               variant="outline"
-              onClick={() => addToCart(book)}
+              onClick={() => {
+                //TODO: Update Product model to Book
+                //addToCart(book)¸
+              }}
             >
               Add to cart
             </Button>

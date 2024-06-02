@@ -49,7 +49,7 @@ const Navbar = () => {
                   </svg>
                 </button>
                 {dropdownOpen && (
-                  <ul className="menu dropdown-content bg-base-100 rounded-box absolute z-[1] flex w-36 flex-col space-y-4 p-2 shadow">
+                  <ul className="menu dropdown-content bg-base-100 rounded-box absolute z-50 flex w-36 flex-col space-y-4 bg-white p-2 shadow">
                     <Link href="/categories/Best-Sellers" className="text-sm">
                       Best Sellers
                     </Link>

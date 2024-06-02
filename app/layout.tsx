@@ -10,6 +10,7 @@ import Footer from "./_components/Footer";
 import { AppProvider } from "./_contexts/AppContext";
 import Sidebar from "./_components/Sidebar";
 import Navbar from "./_components/Navbar";
+import ProgressBarProvider from "./_contexts/ProgressBarContext";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -58,14 +59,16 @@ export default function RootLayout({
         <body
           className={`${poppins.variable} ${hoeflerText.variable} font-sans`}
         >
-          <AppProvider>
-            <CartProvider>
-              <Navbar />
-              <Sidebar />
-              <main>{children}</main>
-              <Footer />
-            </CartProvider>
-          </AppProvider>
+          <ProgressBarProvider>
+            <AppProvider>
+              <CartProvider>
+                <Navbar />
+                <Sidebar />
+                <main>{children}</main>
+                <Footer />
+              </CartProvider>
+            </AppProvider>
+          </ProgressBarProvider>
         </body>
       </html>
     </ClerkProvider>

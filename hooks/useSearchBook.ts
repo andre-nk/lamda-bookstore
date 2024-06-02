@@ -1,32 +1,31 @@
+import firestore from "@/firebase/config";
+import { Book } from "@/models/book";
 import db from "@/utils/db";
-import { product } from "@prisma/client";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-export const useSearchBook = (query: string | null) => {
-  const [result, setResult] = useState<product[]>([]);
+export const useSearchBook = (term: string | null) => {
+  const [result, setResult] = useState<Book[]>([]);
 
-  const getSearchBook = async (query: string) => {
-    const result = await db.product.findMany({
-      where: {
-        OR: [
-          {
-            title: {
-              equals: query,
-              mode: "insensitive",
-            },
-          },
-        ],
-      },
-    });
+  const getSearchBook = async (term: string) => {
+    try {
+      const snapshot = await getDocs(
+        query(collection(firestore, "books"), where("title", "==", query)),
+      );
 
-    setResult(result);
+      const books: Book[] = snapshot.docs.map((doc) => doc.data() as Book);
+
+      setResult(books);
+    } catch (error) {
+      console.error("Error searching books:", error);
+    }
   };
 
   useEffect(() => {
-    if (query) {
-      getSearchBook(query);
+    if (term) {
+      getSearchBook(term);
     }
-  }, [query]);
+  }, [term]);
 
   return { result };
 };
