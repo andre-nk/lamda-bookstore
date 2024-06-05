@@ -96,6 +96,15 @@ const Navbar = () => {
           </SignedIn>
         </div>
         <SignedIn>
+          <div className="hidden lg:block">
+            <Link href="/profile">
+              <button className="inline-flex px-1 py-2.5 text-[16px] text-sm">
+                Address
+              </button>
+            </Link>
+          </div>
+        </SignedIn>
+        <SignedIn>
           <div className="flex items-center justify-end space-x-4">
             <div className="flex cursor-pointer flex-row truncate rounded px-4">
               <button
