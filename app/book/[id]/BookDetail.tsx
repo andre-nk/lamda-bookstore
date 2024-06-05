@@ -78,7 +78,7 @@ function BookDetail({ book }: { book: Book }) {
               variant="outline"
               onClick={() => {
                 //TODO: Update Product model to Book
-                //addToCart(book)¸
+                addToCart(book);
               }}
             >
               Add to cart

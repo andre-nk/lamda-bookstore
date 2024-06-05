@@ -1,4 +1,5 @@
 "use client";
+import { Book } from "@/models/book";
 import { createContext, useContext, useState, useEffect } from "react";
 
 /**
@@ -6,15 +7,15 @@ import { createContext, useContext, useState, useEffect } from "react";
  */
 
 export type CartItem = {
-  product: Product;
+  product: Book;
   quantity: number;
 };
 
 interface CartContextValue {
   cartItems: CartItem[];
-  addToCart: (product: Product) => void;
-  removeFromCart: (productId: number) => void;
-  updateCartItemQuantity: (productId: number, quantity: number) => void;
+  addToCart: (product: Book) => void;
+  removeFromCart: (productId: string) => void;
+  updateCartItemQuantity: (productId: string, quantity: number) => void;
   cartTotal: number;
   cartCount: number;
   setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
@@ -54,7 +55,7 @@ export const CartProvider = ({ children }: Props) => {
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
   }, [cartItems]);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Book) => {
     const existingCartItemIndex = cartItems.findIndex(
       (item) => item.product.id === product.id,
     );
@@ -72,14 +73,14 @@ export const CartProvider = ({ children }: Props) => {
     }
   };
 
-  const removeFromCart = (productId: number) => {
+  const removeFromCart = (productId: string) => {
     const updatedCartItems = cartItems.filter(
       (item) => item.product.id !== productId,
     );
     setCartItems(updatedCartItems);
   };
 
-  const updateCartItemQuantity = (productId: number, quantity: number) => {
+  const updateCartItemQuantity = (productId: string, quantity: number) => {
     const existingCartItemIndex = cartItems.findIndex(
       (item) => item.product.id === productId,
     );
