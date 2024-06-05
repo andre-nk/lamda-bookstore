@@ -1,30 +1,26 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useCart } from "../_contexts/CartContext";
 import dynamic from "next/dynamic";
 import NoSsr from "../_components/NoSsr";
 import { checkout } from "./actions";
 import React from "react";
-
-const PAYMENT_METHODS = {
-  "credit cart": "Credit Card",
-  points: "Points",
-  "google play": "Google Play",
-  gopay: "GoPay",
-};
+import CART_ITEMS from "./dummy-data";
+import { useRouter } from "next/navigation";
 
 function Checkout() {
-  const { cartItems, setCartItems } = useCart();
+  // TODO: Use actual cart items instead of dummy data.
+  const cartItems = [...CART_ITEMS];
   const formRef = React.useRef<HTMLFormElement>(null);
+
+  const router = useRouter();
 
   const handleOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
-    const formData = new FormData(formRef.current);
-    const paymentMethod = formData.get("payment") as string;
+
     // TODO: Use actual customer id instead of `1`.
-    await checkout(cartItems, 1, paymentMethod);
-    setCartItems([]);
+    const redirectUrl = await checkout(1, cartItems);
+    router.push(redirectUrl);
   };
 
   return (
@@ -72,27 +68,7 @@ function Checkout() {
             0,
           )}
         </p>
-        {/* Payment method selection */}
-        <div className="flex flex-col space-y-4">
-          <h2 className="text-xl font-semibold text-slate-900">
-            Payment Method
-          </h2>
-          <div className="flex flex-col space-y-2">
-            {Object.entries(PAYMENT_METHODS).map(([key, value]) => (
-              <label key={key} className="flex items-center space-x-2">
-                <input
-                  type="radio"
-                  name="payment"
-                  value={key}
-                  required
-                  className="h-4 w-4"
-                />
-                <span>{value}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        <Button type="submit">Confirm and Order</Button>
+        <Button type="submit">Pay & Order (DEV)</Button>
       </form>
     </NoSsr>
   );
