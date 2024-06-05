@@ -1,37 +1,39 @@
 "use server";
-import db from "@/utils/db";
 import { CartItem } from "../_contexts/CartContext";
+// @ts-ignore
+import midtransClient from "midtrans-client";
 
+/**
+ * Checkout and get redirect URL to Midtrans payment page.
+ */
 export async function checkout(
-  items: CartItem[],
   customerId: number,
-  paymentMethod: string,
-) {
-  console.log("Checking out items", items, customerId, paymentMethod);
-  await db.$transaction(async (db) => {
-    const orderTransaction = await db.transaction.create({
-      data: {
-        customer_id: customerId.toString(),
-        payment_method: paymentMethod,
-        created_at: new Date(),
-        status: "pending",
-        total_price: items.reduce(
-          (total, item) => total + item.product.price * item.quantity,
-          0,
-        ),
-      },
-    });
+  items: CartItem[],
+): Promise<string> {
+  // TODO: Save order to database and get id. For now, the id is the current timestamp.
+  const orderId = Date.now().toString();
 
-    // TODO: Handle quantities of items
-    for (const item of items) {
-      for (let i = 0; i < item.quantity; i++) {
-        await db.transaction_product.create({
-          data: {
-            product_id: item.product.id,
-            transaction_id: Number(orderTransaction.id),
-          },
-        });
-      }
-    }
+  const snap: any = new midtransClient.Snap({
+    isProduction: false,
+    serverKey: process.env.MIDTRANS_SERVER_KEY,
   });
+
+  const transaction = await snap.createTransaction({
+    transaction_details: {
+      order_id: orderId,
+      gross_amount: items.reduce(
+        (total, item) => total + item.product.price * item.quantity,
+        0,
+      ),
+    },
+    credit_card: {
+      secure: true,
+    },
+    customer_details: {
+      first_name: "Lam",
+      last_name: "Da",
+    },
+  });
+
+  return transaction.redirect_url;
 }
