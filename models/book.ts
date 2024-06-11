@@ -12,5 +12,5 @@ export type Book = {
   published_at: Date;
   cover_img: string;
   price: number;
-  stock: number;
+  stock?: number;
 };
