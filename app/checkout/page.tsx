@@ -4,15 +4,14 @@ import dynamic from "next/dynamic";
 import NoSsr from "../_components/NoSsr";
 import { checkout } from "./actions";
 import React from "react";
-import CART_ITEMS from "./dummy-data";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
+import { useCart } from "@/hooks/useCart";
 
 function Checkout() {
   const user = useUser();
+  const { cartItems } = useCart();
 
-  // TODO: Use actual cart items instead of dummy data.
-  const cartItems = [...CART_ITEMS];
   const formRef = React.useRef<HTMLFormElement>(null);
 
   const router = useRouter();

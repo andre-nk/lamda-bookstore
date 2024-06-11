@@ -36,7 +36,7 @@ export const createCart = async (user_id: string) => {
   return docToJs(newCart);
 };
 
-export const setCartItems = async (user_id: string, items: any) => {
+export const setCartItems = async (user_id: string, items: any[]) => {
   const cartQuery = query(
     collection(firestore, "carts"),
     where("user_id", "==", user_id),
@@ -45,6 +45,7 @@ export const setCartItems = async (user_id: string, items: any) => {
 
   if (cartQuerySnapshot.docs.length === 0) await createCart(user_id);
 
+  console.log("setCartItems", items);
   if (cartQuerySnapshot.docs.length > 0) {
     await updateDoc(cartQuerySnapshot.docs[0].ref, {
       items,
@@ -67,4 +68,18 @@ export const getCart = async (user_id: string) => {
   }
 
   return null;
+};
+
+export const emptyCart = async (user_id: string) => {
+  const cartQuery = query(
+    collection(firestore, "carts"),
+    where("user_id", "==", user_id),
+  );
+  const cartQuerySnapshot = await getDocs(cartQuery);
+
+  if (cartQuerySnapshot.docs.length > 0) {
+    await updateDoc(cartQuerySnapshot.docs[0].ref, {
+      items: [],
+    });
+  }
 };
