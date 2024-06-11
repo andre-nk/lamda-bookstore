@@ -4,6 +4,7 @@ import { CartItem } from "../_contexts/CartContext";
 // @ts-ignore
 import midtransClient from "midtrans-client";
 import { saveOrder } from "@/actions/orders";
+import { emptyCart } from "@/actions/carts";
 
 /**
  * Checkout and get redirect URL to Midtrans payment page.
@@ -39,6 +40,8 @@ export async function checkout(
       email: customer.email,
     },
   });
+
+  await emptyCart(customer.id);
 
   await saveOrder(orderId, customer, items, transaction);
 

@@ -22,6 +22,8 @@ export const docToJson = (data: any | any[]) => {
   if (Array.isArray(data)) jsObject = [];
   else jsObject = {};
 
+  if (typeof data !== "object") return data;
+
   for (const key in data) {
     const val = data[key];
 
