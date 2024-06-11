@@ -1,6 +1,19 @@
 "use client";
+import { Observable, Subject, debounceTime } from "rxjs";
 import { Book } from "@/models/book";
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  MutableRefObject,
+} from "react";
+import {
+  setCartItems as setCartItemsFirestore,
+  getCart,
+} from "@/actions/carts";
+import { useUser } from "@/hooks/useUser";
 
 /**
  * Borrowed from https://github.com/KMS74/Next.js-Shopping-Cart-App/blob/main/src/CartContext.tsx
@@ -18,10 +31,10 @@ interface CartContextValue {
   updateCartItemQuantity: (productId: string, quantity: number) => void;
   cartTotal: number;
   cartCount: number;
-  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
+  setCartItems: (items: CartItem[]) => void;
 }
 
-const CartContext = createContext<CartContextValue>({
+export const CartContext = createContext<CartContextValue>({
   cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
@@ -31,29 +44,48 @@ const CartContext = createContext<CartContextValue>({
   setCartItems: () => {},
 });
 
-export const useCart = () => {
-  return useContext(CartContext);
-};
-
 interface Props {
   children: React.ReactNode;
 }
 
-function getInitialState(): CartItem[] {
-  if (typeof window === "undefined") {
-    return [];
-  }
-  const cartItems = localStorage.getItem("cartItems");
-  return cartItems ? JSON.parse(cartItems) : [];
-}
-
 export const CartProvider = ({ children }: Props) => {
-  const [cartItems, setCartItems] = useState(getInitialState());
+  const user = useUser();
+  const [cartItems, _setCartItems] = useState([] as CartItem[]);
 
+  const cartItems$Ref: MutableRefObject<Subject<CartItem[]> | null> =
+    useRef(null);
+
+  // This is used to debounce the cart items update,
+  // and send the updated cart items to firestore.
+  // So we don't update Firestore every time the cart items change.
   useEffect(() => {
-    if (typeof window !== "undefined")
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
-  }, [cartItems]);
+    if (!cartItems$Ref.current && user?.id) {
+      cartItems$Ref.current = new Subject<CartItem[]>();
+      cartItems$Ref.current.pipe(debounceTime(2000)).subscribe((items) => {
+        console.log("Updating cart items in Firestore: ", items);
+        setCartItemsFirestore(user.id, items).catch((error) => {
+          console.error("Error updating cart items in Firestore: ", error);
+        });
+      });
+    }
+  }, [user?.id]);
+
+  // Get initial cart items from Firestore
+  useEffect(() => {
+    if (user?.id) {
+      getCart(user.id).then((cart) => {
+        if (cart) _setCartItems(cart.items);
+      });
+    }
+  }, [user?.id]);
+
+  /**
+   * Set cart items and notify Firestore
+   */
+  const setCartItems = (items: CartItem[]) => {
+    _setCartItems(items);
+    cartItems$Ref.current?.next(items);
+  };
 
   const addToCart = (product: Book) => {
     const existingCartItemIndex = cartItems.findIndex(

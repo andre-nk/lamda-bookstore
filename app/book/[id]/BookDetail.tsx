@@ -2,7 +2,6 @@
 import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/app/_contexts/CartContext";
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -12,6 +11,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 import { Book } from "@/models/book";
+import { useCart } from "@/hooks/useCart";
 
 function BookDetail({ book }: { book: Book }) {
   const { addToCart } = useCart();

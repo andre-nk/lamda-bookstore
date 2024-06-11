@@ -12,7 +12,7 @@ import {
   DrawerFooter,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { useCart } from "../_contexts/CartContext";
+import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus, Trash } from "lucide-react";
 import Link from "next/link";
