@@ -6,20 +6,26 @@ import { checkout } from "./actions";
 import React from "react";
 import CART_ITEMS from "./dummy-data";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/useUser";
 
 function Checkout() {
+  const user = useUser();
+
   // TODO: Use actual cart items instead of dummy data.
   const cartItems = [...CART_ITEMS];
   const formRef = React.useRef<HTMLFormElement>(null);
 
   const router = useRouter();
 
+  if (!user) {
+    return <p>You must be logged in to checkout.</p>;
+  }
+
   const handleOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
 
-    // TODO: Use actual customer id instead of `1`.
-    const redirectUrl = await checkout(1, cartItems);
+    const redirectUrl = await checkout(user, cartItems);
     router.push(redirectUrl);
   };
 
