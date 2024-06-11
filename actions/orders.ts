@@ -1,5 +1,5 @@
 import { CartItem } from "@/app/_contexts/CartContext";
-import { Order, OrderLine } from "@/models/order";
+import { Order, OrderLine, SnapTransaction } from "@/models/order";
 
 import firestore from "@/firebase/config";
 import { addDoc, collection } from "firebase/firestore";
@@ -9,6 +9,7 @@ export const saveOrder = async (
   orderId: string,
   customer: AuthUser,
   items: CartItem[],
+  snapTransaction: SnapTransaction,
 ) => {
   const orderLines: OrderLine[] = items.map((item) => ({
     product_id: item.product.id,
@@ -30,6 +31,8 @@ export const saveOrder = async (
     order_lines: orderLines,
     total_cost: totalCost,
     created_at: new Date(),
+    midtrans_link: snapTransaction.redirect_url,
+    midtrans_token: snapTransaction.token,
   };
 
   try {
