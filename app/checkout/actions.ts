@@ -40,7 +40,7 @@ export async function checkout(
     },
   });
 
-  await saveOrder(orderId, customer, items);
+  await saveOrder(orderId, customer, items, transaction);
 
   return transaction.redirect_url;
 }

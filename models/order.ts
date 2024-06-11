@@ -32,6 +32,11 @@ export type MidtransTransactionData = {
   challenge_completion?: boolean;
 };
 
+export type SnapTransaction = {
+  redirect_url: string;
+  token: string;
+};
+
 export type Order = {
   id: string;
   customer_id: string;
@@ -39,4 +44,6 @@ export type Order = {
   total_cost: number;
   created_at: Date;
   midtrans?: MidtransTransactionData;
+  midtrans_link?: string;
+  midtrans_token?: string;
 };
