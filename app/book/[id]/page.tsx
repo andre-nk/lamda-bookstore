@@ -1,6 +1,6 @@
 import db from "@/utils/db";
 import BookDetail from "./BookDetail";
-import { getBookByID } from "@/actions/actions";
+import { getBookByID } from "@/actions/products";
 
 async function Book({ params }: any) {
   const book = await getBookByID(params.id);

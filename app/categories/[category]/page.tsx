@@ -10,7 +10,7 @@ import {
   BreadcrumbList,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { getBestSellerBooks, getBooksByCategory } from "@/actions/actions";
+import { getBestSellerBooks, getBooksByCategory } from "@/actions/products";
 
 export default async function CategoryPage({
   params,

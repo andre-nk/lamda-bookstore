@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import Link from "next/link";
 import BookCard from "./BookCard";
-import { getBestSellerBooks, getBooksByCategory } from "@/actions/actions";
+import { getBestSellerBooks, getBooksByCategory } from "@/actions/products";
 
 export default async function BookSwipers({
   categoryTitle,

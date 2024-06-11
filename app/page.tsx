@@ -1,4 +1,4 @@
-import { seedProductData } from "@/actions/actions";
+import { seedProductData } from "@/actions/products";
 import Hero from "./_components/Hero";
 import BookSwipers from "./_components/BookSwipers";
 

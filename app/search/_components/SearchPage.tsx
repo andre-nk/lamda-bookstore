@@ -1,4 +1,4 @@
-import { getSearchBook } from "@/actions/actions";
+import { getSearchBook } from "@/actions/products";
 import BookCard from "@/app/_components/BookCard";
 import {
   Breadcrumb,
