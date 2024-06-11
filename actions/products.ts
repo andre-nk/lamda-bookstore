@@ -32,7 +32,9 @@ export const seedProductData = async () => {
         published_at: new Date(book.published_at),
         cover_img: book.cover_img,
         price: parseInt(book.price),
-        stock: 1000,
+        buy_price:
+          Math.floor(parseInt(book.price) * Math.random() * 0.5) + 5000,
+        stock: Math.floor(Math.random() * 100) + 1,
       };
 
       addDoc(collection(firestore, "books"), bookObject);
