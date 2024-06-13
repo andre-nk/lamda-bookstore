@@ -14,4 +14,5 @@ export type Book = {
   price: number;
   buy_price?: number;
   stock?: number;
+  stock_sold?: number;
 };
