@@ -2,8 +2,38 @@ import { CartItem } from "@/app/_contexts/CartContext";
 import { Order, OrderLine, SnapTransaction } from "@/models/order";
 
 import firestore from "@/firebase/config";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { AuthUser } from "@/models/auth-user";
+import { docToJson } from "@/utils";
+
+export const getOrdersByCustomerId = async (customerId: string) => {
+  try {
+    const docsSnapshot = await getDocs(
+      query(
+        collection(firestore, "orders"),
+        where("customer_id", "==", customerId),
+        orderBy("created_at", "desc"),
+      ),
+    );
+
+    if (docsSnapshot.docs.length > 0) {
+      const orders: Order[] = docsSnapshot.docs.map(
+        (doc) => doc.data() as Order,
+      );
+
+      return docToJson(orders);
+    }
+  } catch (error: any) {
+    throw error;
+  }
+};
 
 export const saveOrder = async (
   orderId: string,
