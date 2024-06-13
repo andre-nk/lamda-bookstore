@@ -24,6 +24,16 @@ model customer {
   gender  String? @db.String(20)
 }
 
+model User {
+  id             String   @id @default(uuid())
+  fullname       String?  @db.String(255)
+  address        String?  @db.String(255)
+  phoneNumber    String?  @db.String(20)
+  externalUserId String   @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
 // model product {
 //   id           BigInt   @id @unique(map: "id") @default(sequence())
 //   title        String   @db.String(256)

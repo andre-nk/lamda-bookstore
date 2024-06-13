@@ -102,6 +102,11 @@ const Navbar = () => {
                 Address
               </button>
             </Link>
+            <Link href="/orders">
+              <button className="inline-flex px-1 py-2.5 text-[16px] text-sm">
+                Orders
+              </button>
+            </Link>
           </div>
         </SignedIn>
         <SignedIn>

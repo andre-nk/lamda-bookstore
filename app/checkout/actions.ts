@@ -5,6 +5,7 @@ import { CartItem } from "../_contexts/CartContext";
 import midtransClient from "midtrans-client";
 import { saveOrder } from "@/actions/orders";
 import { emptyCart } from "@/actions/carts";
+import { updateBooksQuantities } from "@/actions/products";
 
 /**
  * Checkout and get redirect URL to Midtrans payment page.
@@ -25,21 +26,30 @@ export async function checkout(
     0,
   );
 
-  const transaction = await snap.createTransaction({
-    transaction_details: {
-      order_id: orderId,
-      gross_amount: total,
-    },
-    credit_card: {
-      secure: true,
-    },
-    customer_details: {
-      id: customer.id,
-      first_name: customer.firstName,
-      last_name: customer.lastName,
-      email: customer.email,
-    },
-  });
+  // const transaction = await snap.createTransaction({
+  //   transaction_details: {
+  //     order_id: orderId,
+  //     gross_amount: total,
+  //   },
+  //   credit_card: {
+  //     secure: true,
+  //   },
+  //   customer_details: {
+  //     id: customer.id,
+  //     first_name: customer.firstName,
+  //     last_name: customer.lastName,
+  //     email: customer.email,
+  //   },
+  // });
+  const transaction = {
+    redirect_url: "https://app.sandbox.midtrans.com/snap/v1/transactions/1234",
+    token: "1234",
+  };
+
+  await updateBooksQuantities(
+    items.map((item) => item.product.id),
+    items.map((item) => -item.quantity),
+  );
 
   await emptyCart(customer.id);
 

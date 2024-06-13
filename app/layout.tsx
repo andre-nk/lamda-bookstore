@@ -11,6 +11,7 @@ import { AppProvider } from "./_contexts/AppContext";
 import Sidebar from "./_components/Sidebar";
 import Navbar from "./_components/Navbar";
 import ProgressBarProvider from "./_contexts/ProgressBarContext";
+import { Toaster } from "sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -65,6 +66,7 @@ export default function RootLayout({
                 <Navbar />
                 <Sidebar />
                 <main>{children}</main>
+                <Toaster position="top-center" />
                 <Footer />
               </CartProvider>
             </AppProvider>

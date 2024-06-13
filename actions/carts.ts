@@ -45,7 +45,6 @@ export const setCartItems = async (user_id: string, items: any[]) => {
 
   if (cartQuerySnapshot.docs.length === 0) await createCart(user_id);
 
-  console.log("setCartItems", items);
   if (cartQuerySnapshot.docs.length > 0) {
     await updateDoc(cartQuerySnapshot.docs[0].ref, {
       items,
