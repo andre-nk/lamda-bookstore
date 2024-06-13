@@ -13,6 +13,9 @@ import {
   orderBy,
   query,
   where,
+  runTransaction,
+  DocumentReference,
+  increment,
 } from "firebase/firestore";
 
 export const seedProductData = async () => {
@@ -123,6 +126,60 @@ export const getSearchBook = async (term: string) => {
     const books: Book[] = snapshot.docs.map((doc) => doc.data() as Book);
 
     return books;
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
+
+/**
+ * Update books stock quantities
+ *
+ * @param bookIds - Array of book ids
+ * @param deltaValues - Array of delta values to update stock
+ * @param updateStockSold - Update stock_sold as well
+ */
+export const updateBooksQuantities = async (
+  bookIds: string[],
+  deltaValues: number[],
+  updateStockSold = true,
+) => {
+  const refs: DocumentReference[] = [];
+  const newStocks: number[] = [];
+  await Promise.all(
+    bookIds.map(async (bookId, index) => {
+      // Update books using query where ids
+      const bookRef = collection(firestore, "books");
+      const bookQuery = query(bookRef, where("id", "==", bookId));
+      const bookSnapshot = await getDocs(bookQuery);
+
+      if (bookSnapshot.docs.length > 0) {
+        const book = bookSnapshot.docs[0].data() as Book;
+
+        if (!book.stock) throw new Error(`Empty stock for book ${book.title}`);
+
+        if (book.stock + deltaValues[index] < 0)
+          throw new Error(`Insufficient stock for book ${book.title}`);
+
+        const newStock = book.stock + deltaValues[index];
+        newStocks.push(newStock);
+        refs.push(bookSnapshot.docs[0].ref);
+      }
+    }),
+  );
+
+  try {
+    await runTransaction(firestore, async (transaction) => {
+      refs.forEach((ref, index) => {
+        transaction.update(ref, {
+          stock: newStocks[index],
+          stock_sold: updateStockSold
+            ? increment(-deltaValues[index])
+            : increment(0),
+        });
+      });
+    });
   } catch (error: any) {
     return {
       error: error.message,
