@@ -3,12 +3,15 @@ import { Button } from "@/components/ui/button";
 import dynamic from "next/dynamic";
 import NoSsr from "../_components/NoSsr";
 import { checkout } from "./actions";
-import React from "react";
+import React, { useId } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/useUser";
 import { useCart } from "@/hooks/useCart";
 
+const SHIPPING_OPTIONS = ["jne", "posaja", "tiki"];
+
 function Checkout() {
+  const id = useId();
   const user = useUser();
   const { cartItems } = useCart();
 
@@ -24,7 +27,11 @@ function Checkout() {
     e.preventDefault();
     if (!formRef.current) return;
 
-    const redirectUrl = await checkout(user, cartItems);
+    const shipping = (
+      formRef.current.elements.namedItem("shipping") as RadioNodeList
+    ).value;
+
+    const redirectUrl = await checkout(user, cartItems, shipping);
     router.push(redirectUrl);
   };
 
@@ -65,6 +72,27 @@ function Checkout() {
               </div>
             </div>
           ))}
+        </div>
+        {/* Shipping option */}
+        <div className="flex flex-col space-y-4">
+          <h2 className="text-xl font-semibold text-slate-900">Shipping</h2>
+          <div className="flex flex-col space-y-4">
+            {SHIPPING_OPTIONS.map((option, i) => (
+              <div
+                key={option}
+                className="flex flex-row items-center space-x-4"
+              >
+                <input
+                  type="radio"
+                  id={id + option}
+                  name="shipping"
+                  value={option}
+                  defaultChecked={i === 0}
+                />
+                <label htmlFor={option}>{option.toUpperCase()}</label>
+              </div>
+            ))}
+          </div>
         </div>
         <p>
           Total: $

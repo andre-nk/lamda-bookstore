@@ -46,4 +46,5 @@ export type Order = {
   midtrans?: MidtransTransactionData;
   midtrans_link?: string;
   midtrans_token?: string;
+  shipping?: string;
 };
