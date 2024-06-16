@@ -53,12 +53,12 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
       </div>
       <div className="flex w-full scale-[90%] flex-col items-center justify-center lg:w-1/2">
         <h1 style={{ fontSize: 40, fontWeight: "bold" }} className="mb-[60px]">
-          Pengiriman
+          Delivery Address
         </h1>
         <div className="flex flex-col justify-between gap-3">
           <div>
             <Label style={{ fontSize: 12, fontWeight: "bold" }}>
-              Nama Lengkap
+              Full Name
             </Label>
             <Input
               className="h-9 w-[576px]"
@@ -71,7 +71,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
           </div>
           <div>
             <Label style={{ fontSize: 12, fontWeight: "bold" }}>
-              Nomor Telepon
+              Phone Number
             </Label>
             <Input
               className="h-9 w-[576px]"
@@ -83,7 +83,7 @@ const ProfileForm = ({ user }: ProfileFormProps) => {
             />
           </div>
           <div>
-            <Label style={{ fontSize: 12, fontWeight: "bold" }}>Alamat</Label>
+            <Label style={{ fontSize: 12, fontWeight: "bold" }}>Address</Label>
             <Input
               className="h-[106px] w-[576px]"
               type="Nama"
