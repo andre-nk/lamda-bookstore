@@ -13,6 +13,7 @@ import { updateBooksQuantities } from "@/actions/products";
 export async function checkout(
   customer: AuthUser,
   items: CartItem[],
+  shipping: string,
 ): Promise<string> {
   const orderId = Date.now().toString();
 
@@ -49,7 +50,7 @@ export async function checkout(
 
   await emptyCart(customer.id);
 
-  await saveOrder(orderId, customer, items, transaction);
+  await saveOrder(orderId, customer, items, transaction, shipping);
 
   return transaction.redirect_url;
 }

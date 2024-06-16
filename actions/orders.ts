@@ -40,6 +40,7 @@ export const saveOrder = async (
   customer: AuthUser,
   items: CartItem[],
   snapTransaction: SnapTransaction,
+  shipping: string,
 ) => {
   const orderLines: OrderLine[] = items.map((item) => ({
     product_id: item.product.id,
@@ -63,6 +64,7 @@ export const saveOrder = async (
     created_at: new Date(),
     midtrans_link: snapTransaction.redirect_url,
     midtrans_token: snapTransaction.token,
+    shipping: shipping,
   };
 
   try {
