@@ -26,25 +26,21 @@ export async function checkout(
     0,
   );
 
-  // const transaction = await snap.createTransaction({
-  //   transaction_details: {
-  //     order_id: orderId,
-  //     gross_amount: total,
-  //   },
-  //   credit_card: {
-  //     secure: true,
-  //   },
-  //   customer_details: {
-  //     id: customer.id,
-  //     first_name: customer.firstName,
-  //     last_name: customer.lastName,
-  //     email: customer.email,
-  //   },
-  // });
-  const transaction = {
-    redirect_url: "https://app.sandbox.midtrans.com/snap/v1/transactions/1234",
-    token: "1234",
-  };
+  const transaction = await snap.createTransaction({
+    transaction_details: {
+      order_id: orderId,
+      gross_amount: total,
+    },
+    credit_card: {
+      secure: true,
+    },
+    customer_details: {
+      id: customer.id,
+      first_name: customer.firstName,
+      last_name: customer.lastName,
+      email: customer.email,
+    },
+  });
 
   await updateBooksQuantities(
     items.map((item) => item.product.id),
